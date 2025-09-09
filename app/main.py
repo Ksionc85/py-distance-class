@@ -26,13 +26,13 @@ class Distance:
             return Distance(self.km + float(other))
         return NotImplemented
 
-    def __iadd__(self, other: "Distance" | float | int) -> "Distance":
+    def __iadd__(self, other: "Distance" | float | int) -> "Distance" | NotImplementedType:
         if isinstance(other, Distance):
             self.km += other.km
         elif isinstance(other, (int, float)):
             self.km += float(other)
         else:
-            return self
+            return NotImplemented  # pozwól Pythonowi użyć fallbacku do __add__
         return self
 
     def __mul__(self, other: float | int) -> "Distance" | NotImplementedType:
@@ -63,7 +63,7 @@ class Distance:
             return self.km > float(other)
         return False
 
-    def __eq__(self, other: object) -> bool:
+    def __eq__(self, other: "Distance" | float | int) -> bool:
         if isinstance(other, Distance):
             return self.km == other.km
         if isinstance(other, (int, float)):
